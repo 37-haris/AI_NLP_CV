@@ -1,0 +1,169 @@
+
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:    #0d0d0d;
+      --surface:  #141414;
+      --card:     #1a1a1a;
+      --border:   #2a2a2a;
+      --claude:   #D97757;
+      --claude-h: #c4633f;
+      --text:     #f0f0f0;
+      --muted:    #888;
+      --input-bg: #111;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--black);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 2.5rem;
+    }
+    .logo-icon {
+      width: 36px; height: 36px;
+      background: var(--claude);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .logo-icon svg { width: 22px; height: 22px; fill: #fff; }
+    .logo-name { font-size: 1.25rem; font-weight: 600; letter-spacing: -0.3px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 2.5rem 2.25rem;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.55);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      margin-bottom: 2rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: .875rem;
+      font-weight: 500;
+      padding: .55rem 0;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: background .18s, color .18s;
+    }
+    .tab-btn.active { background: var(--claude); color: #fff; }
+
+    h2 { font-size: 1.35rem; font-weight: 600; margin-bottom: .35rem; letter-spacing: -0.4px; }
+    .sub { font-size: .82rem; color: var(--muted); margin-bottom: 1.75rem; }
+
+    .accent-line {
+      width: 36px; height: 2px;
+      background: var(--claude);
+      border-radius: 2px;
+      margin-bottom: 1.5rem;
+    }
+
+    .field { margin-bottom: 1rem; }
+    label {
+      display: block;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: .4rem;
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+    input {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: .7rem .9rem;
+      font-family: inherit;
+      font-size: .9rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .18s, box-shadow .18s;
+    }
+    input::placeholder { color: #444; }
+    input:focus {
+      border-color: var(--claude);
+      box-shadow: 0 0 0 3px rgba(217,119,87,.15);
+    }
+
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+
+    .error-msg {
+      font-size: .8rem; color: #e07070;
+      margin-top: .3rem; display: none;
+    }
+    .error-msg.show { display: block; }
+
+    .btn-primary {
+      width: 100%;
+      background: var(--claude);
+      color: #fff;
+      border: none;
+      border-radius: 9px;
+      padding: .8rem;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1.25rem;
+      transition: background .18s, transform .12s;
+    }
+    .btn-primary:hover  { background: var(--claude-h); }
+    .btn-primary:active { transform: scale(.98); }
+
+    .success-banner {
+      display: none;
+      background: rgba(217,119,87,.1);
+      border: 1px solid rgba(217,119,87,.35);
+      border-radius: 9px;
+      padding: .7rem 1rem;
+      font-size: .85rem;
+      color: var(--claude);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .success-banner.show { display: block; }
+
+    .switch-hint {
+      text-align: center;
+      margin-top: 1.4rem;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+    .switch-hint a { color: var(--claude); text-decoration: none; font-weight: 500; }
+    .switch-hint a:hover { text-decoration: underline; }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+
+
+
+    /* c'est pour la page d'accueil  */

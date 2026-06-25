@@ -1,0 +1,26 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+
+# Models / large ML files
+*.pkl
+*.h5
+*.pt
+
+# Jupyter notebooks & checkpoints
+*.ipynb
+.ipynb_checkpoints/
+
+# MLflow / databases
+*.db
+mlflow_folder/
+
+# Environment
+.venv/
+.env
+
+# Data
+data/

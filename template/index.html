@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connexion / Inscription</title>
+
+  <link rel="stylesheet" href="../static/login.css">
+</head>
+
+<body>
+
+  <div class="logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10
+          10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3
+          3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5
+          0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0
+          5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+      </svg>
+    </div>
+    <span class="logo-name">
+      Mon application : Prédiction des descriptions d'images
+    </span>
+  </div>
+
+  <div class="card">
+
+    <div class="tabs">
+      <button class="tab-btn active" id="tab-login" onclick="showPanel('login')">
+        Se connecter
+      </button>
+      <button class="tab-btn" id="tab-signup" onclick="showPanel('signup')">
+        S'inscrire
+      </button>
+    </div>
+
+    <!-- LOGIN -->
+    <div id="panel-login" class="panel active">
+      <h2>Bienvenue</h2>
+      <p class="sub">Connecte-toi à ton compte</p>
+
+      <div id="login-success" class="success-banner"></div>
+
+      <div class="field">
+        <label>Nom d'utilisateur</label>
+        <input id="login-user" type="text" placeholder="ton_nom">
+      </div>
+
+      <div class="field">
+        <label>Mot de passe</label>
+        <input id="login-pass" type="password" placeholder="••••••••">
+        <p id="login-err" class="error-msg">
+          Nom d'utilisateur ou mot de passe incorrect
+        </p>
+      </div>
+
+      <button class="btn-primary" onclick="handleLogin()">
+        Se connecter →
+      </button>
+
+      <p class="switch-hint">
+        Pas de compte ?
+        <a href="#" onclick="showPanel('signup')">S'inscrire</a>
+      </p>
+    </div>
+
+    <!-- SIGNUP -->
+    <div id="panel-signup" class="panel">
+      <h2>Créer un compte</h2>
+
+      <div class="row">
+        <div class="field">
+          <label>Prénom</label>
+          <input id="su-fname" type="text" placeholder="entrez ton prénom">
+        </div>
+
+        <div class="field">
+          <label>Nom</label>
+          <input id="su-lname" type="text" placeholder=" entrez ton nom">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nom d'utilisateur</label>
+        <input id="su-user" type="text" placeholder="nom d'utilisateur">
+      </div>
+
+      <div class="field">
+        <label>Mot de passe</label>
+        <input id="su-pass" type="password" placeholder="entrez le mot de passe">
+      </div>
+
+      <div class="field">
+        <label>Confirmer mot de passe</label>
+        <input id="su-pass2" type="password" placeholder="confirmer le mot de passe">
+        <p id="su-err" class="error-msg"></p>
+      </div>
+
+      <button class="btn-primary" onclick="handleSignup()">
+        S'enregistrer →
+      </button>
+
+      <p class="switch-hint">
+        Déjà un compte ?
+        <a href="landing.html" onclick="showPanel('login')">Se connecter</a>
+      </p>
+    </div>
+
+  </div>
+  <script defer src="../static/script.js"></script>
+</body>
+</html>
