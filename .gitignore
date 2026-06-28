@@ -11,8 +11,8 @@ __pycache__/
 *.pt
 
 # Jupyter notebooks & checkpoints
-*.ipynb
-.ipynb_checkpoints/
+#*.ipynb
+#.ipynb_checkpoints/
 
 # MLflow / databases
 *.db
