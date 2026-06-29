@@ -1,3 +1,20 @@
+
+
+# Git
+.git/
+.gitignore
+
+# Generated sites
+site/
+
+# User uploads
+static/uploads/
+
+# Pycache in subdirs
+**/__pycache__/
+**/*.pyc
+EOF
+
 # Python cache
 __pycache__/
 *.pyc

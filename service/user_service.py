@@ -1,4 +1,5 @@
 import hashlib
+import os
 from jose import jwt
 from datetime import datetime, timedelta
 from fastapi import HTTPException, Response
@@ -6,7 +7,7 @@ from fastapi.responses import RedirectResponse
 from schema.schema import RegisterRequest, LoginRequest
 from repositories.user_repository import user_repository
 
-SECRET_KEY = "db521a9981fcfd50f4327ff3680c9ec1b3c6f9c5f2338ef8527cd28398cf2410"
+SECRET_KEY = os.getenv("SECRET_KEY", "fallback-dev-key-change-in-production")
 ALGORITHM  = "HS256"
 
 

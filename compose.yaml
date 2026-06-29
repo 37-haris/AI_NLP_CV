@@ -1,0 +1,11 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./users.db:/app/users.db          # persist database
+      - ./static/uploads:/app/static/uploads  # persist uploaded images
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+    restart: unless-stopped

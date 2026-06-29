@@ -20,7 +20,7 @@ else:
 
 # ── Load tokenizer ────────────────────────────────────────────────────────────
 _BASE     = os.path.dirname(os.path.abspath(__file__))
-_TOK_PATH = os.path.join(_BASE, "..", "../image analysis/AI_Model/tokenizer.pkl")
+_TOK_PATH = os.path.join(_BASE, "tokenizer.pkl")
 
 with open(_TOK_PATH, "rb") as f:
     tok = pickle.load(f)
@@ -65,7 +65,7 @@ class CaptionModel(nn.Module):
         return self.output(x + h)
 
 # ── Load best_model.pt ────────────────────────────────────────────────────────
-_MODEL_PATH = os.path.join(_BASE, "..", "../image analysis/AI_Model/best_model.pt")
+_MODEL_PATH = os.path.join(_BASE, "best_model.pt")
 
 model = CaptionModel().to(DEVICE)
 model.load_state_dict(torch.load(_MODEL_PATH, map_location=DEVICE))
