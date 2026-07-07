@@ -1,4 +1,3 @@
-
 import io
 import os
 import time
@@ -12,13 +11,14 @@ from PIL import Image
 from groq import Groq
 from dotenv import load_dotenv
 from langfuse import observe, get_client
+from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
+from rouge_score import rouge_scorer
 
 # ── Load env ──────────────────────────────────────────────────────────────────
 load_dotenv()
 
 # ── Langfuse client ───────────────────────────────────────────────────────────
 langfuse = get_client()
-
 
 # ── Device ────────────────────────────────────────────────────────────────────
 if torch.backends.mps.is_available():
@@ -99,10 +99,45 @@ img_transform = transforms.Compose([
 # ── Groq client ───────────────────────────────────────────────────────────────
 groq_client = Groq(api_key=os.getenv("GROQ_API_KEY", ""))
 
+# ── Scoring helper ────────────────────────────────────────────────────────────
+def compute_scores(hypothesis: str, reference: str = None) -> dict:
+    """
+    Compute BLEU and ROUGE scores.
+    If no reference is provided, uses the hypothesis itself as a self-reference
+    (gives a baseline score of 1.0 — useful for logging without ground truth).
+    In production you would pass the actual reference caption.
+    """
+    hyp_tokens = hypothesis.lower().split()
+    ref_tokens = reference.lower().split() if reference else hyp_tokens
+
+    # BLEU
+    smoother  = SmoothingFunction().method1
+    bleu1 = sentence_bleu([ref_tokens], hyp_tokens, weights=(1, 0, 0, 0), smoothing_function=smoother)
+    bleu2 = sentence_bleu([ref_tokens], hyp_tokens, weights=(0.5, 0.5, 0, 0), smoothing_function=smoother)
+    bleu4 = sentence_bleu([ref_tokens], hyp_tokens, weights=(0.25, 0.25, 0.25, 0.25), smoothing_function=smoother)
+
+    # ROUGE
+    scorer  = rouge_scorer.RougeScorer(["rouge1", "rouge2", "rougeL"], use_stemmer=True)
+    ref_str = reference if reference else hypothesis
+    scores  = scorer.score(ref_str, hypothesis)
+
+    return {
+        "bleu_1":    round(bleu1, 4),
+        "bleu_2":    round(bleu2, 4),
+        "bleu_4":    round(bleu4, 4),
+        "rouge_1_f": round(scores["rouge1"].fmeasure, 4),
+        "rouge_2_f": round(scores["rouge2"].fmeasure, 4),
+        "rouge_l_f": round(scores["rougeL"].fmeasure, 4),
+    }
+
 
 # ── Public functions ──────────────────────────────────────────────────────────
 @observe(name="image_captioning")
-def describe_image(image_bytes: bytes) -> str:
+def describe_image(image_bytes: bytes, reference: str = None) -> str:
+    """
+    Extract VGG16 features, run beam search, compute BLEU+ROUGE, log to Langfuse.
+    Pass `reference` if you have a ground truth caption to compare against.
+    """
     image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
 
     # Feature extraction
@@ -118,6 +153,9 @@ def describe_image(image_bytes: bytes) -> str:
     caption   = _beam_search(features)
     beam_time = round(time.time() - t1, 4)
 
+    # Compute BLEU + ROUGE
+    nlp_scores = compute_scores(caption, reference)
+
     langfuse.update_current_generation(
         output={"caption_en": caption},
         metadata={
@@ -128,6 +166,13 @@ def describe_image(image_bytes: bytes) -> str:
             "beam_search_time":        beam_time,
             "total_inference_time":    round(feat_time + beam_time, 4),
             "word_count":              len(caption.split()),
+            # ── NLP metrics ──────────────────────────────────────────────────
+            "bleu_1":                  nlp_scores["bleu_1"],
+            "bleu_2":                  nlp_scores["bleu_2"],
+            "bleu_4":                  nlp_scores["bleu_4"],
+            "rouge_1_f":               nlp_scores["rouge_1_f"],
+            "rouge_2_f":               nlp_scores["rouge_2_f"],
+            "rouge_l_f":               nlp_scores["rouge_l_f"],
         },
     )
 
