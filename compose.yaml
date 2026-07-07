@@ -9,3 +9,6 @@ services:
     environment:
       - SECRET_KEY=${SECRET_KEY}
     restart: unless-stopped
+
+
+    
