@@ -258,6 +258,6 @@ users
 
 ---
 
-## License
+## Contact
 
-MIT
+haris.karimi.fr@gmail.com
